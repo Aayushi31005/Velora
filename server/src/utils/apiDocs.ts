@@ -158,7 +158,10 @@ export const buildApiDocsPage = () => {
           <li><code>POST /api/auth/register</code></li>
           <li><code>POST /api/auth/login</code></li>
           <li><code>GET /api/auth/me</code></li>
+          <li><code>GET /api/categories</code></li>
+          <li><code>POST /api/categories</code> (admin)</li>
           <li><code>GET /api/products</code></li>
+          <li><code>POST /api/products</code> (admin)</li>
         </ul>
       </section>
 

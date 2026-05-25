@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
 import { getJwtSecret } from "../config/env";
+import { HttpError } from "./error.middleware";
 
 export interface AuthRequest extends Request {
   user?: {
@@ -25,10 +26,19 @@ export const protect = (
 
   const token = authHeader.split(" ")[1];
 
+  let secret: string;
+
+  try {
+    secret = getJwtSecret();
+  } catch (error) {
+    next(error);
+    return;
+  }
+
   try {
     const decoded = jwt.verify(
       token,
-      getJwtSecret()
+      secret
     ) as {
       userId: string;
       role: string;
@@ -38,8 +48,6 @@ export const protect = (
 
     next();
   } catch {
-    return res.status(401).json({
-      message: "Invalid token",
-    });
+    next(new HttpError(401, "Invalid token"));
   }
 };

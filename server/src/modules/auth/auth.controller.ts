@@ -1,16 +1,12 @@
-import type { Request, Response } from "express";
+import type { NextFunction, Request, Response, RequestHandler } from "express";
 
 import type { AuthRequest } from "../../middleware/auth.middleware";
 import { loginUser, registerUser } from "./auth.services";
 
-const getAuthErrorStatus = (message: string, fallbackStatus: number) =>
-  message.startsWith("Missing required environment var")
-    ? 500
-    : fallbackStatus;
-
 export const register = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   try {
     const { name, email, password } = req.body;
@@ -23,17 +19,14 @@ export const register = async (
 
     res.status(201).json(result);
   } catch (error) {
-    const message = (error as Error).message;
-
-    res.status(getAuthErrorStatus(message, 400)).json({
-      message,
-    });
+    next(error);
   }
 };
 
 export const login = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   try {
     const { email, password } = req.body;
@@ -45,15 +38,11 @@ export const login = async (
 
     res.json(result);
   } catch (error) {
-    const message = (error as Error).message;
-
-    res.status(getAuthErrorStatus(message, 401)).json({
-      message,
-    });
+    next(error);
   }
 };
 
-export const me = async (
+export const me: RequestHandler = async (
   req: AuthRequest,
   res: Response
 ) => {

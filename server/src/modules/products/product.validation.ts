@@ -42,7 +42,6 @@ export const listProductsQuerySchema = z.object({
 export const createProductSchema = z.object({
   body: z.object({
     title: z.string().trim().min(2).max(255),
-    slug: z.string().trim().min(2).max(255),
     description: z.string().trim().min(10),
     price: decimalString,
     stock: positiveInteger,
@@ -55,7 +54,6 @@ export const updateProductSchema = z.object({
   body: z
     .object({
       title: z.string().trim().min(2).max(255).optional(),
-      slug: z.string().trim().min(2).max(255).optional(),
       description: z.string().trim().min(10).optional(),
       price: decimalString.optional(),
       stock: positiveInteger.optional(),

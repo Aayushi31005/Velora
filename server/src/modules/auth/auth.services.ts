@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
-import { hasDatabaseUrl } from "../../config/env";
+import { hasDatabaseUrl, isDevelopment } from "../../config/env";
 import { prisma } from "../../config/prisma";
+import { HttpError } from "../../middleware/error.middleware";
 import { generateToken } from "../../utils/generateToken";
 import {
   createDevUser,
@@ -13,11 +14,11 @@ export const registerUser = async (
   email: string,
   password: string
 ) => {
-  if (!hasDatabaseUrl()) {
+  if (!hasDatabaseUrl() && isDevelopment()) {
     const existingDevUser = await findDevUserByEmail(email);
 
     if (existingDevUser) {
-      throw new Error("Email already exists");
+      throw new HttpError(409, "Email already exists");
     }
 
     const user = await createDevUser(name, email, password);
@@ -30,12 +31,16 @@ export const registerUser = async (
     };
   }
 
+  if (!hasDatabaseUrl()) {
+    throw new HttpError(500, "Missing required environment variable: DATABASE_URL");
+  }
+
   const existingUser = await prisma.user.findUnique({
     where: { email },
   });
 
   if (existingUser) {
-    throw new Error("Email already exists");
+    throw new HttpError(409, "Email already exists");
   }
 
   const user = await prisma.user.create({
@@ -66,11 +71,11 @@ export const loginUser = async (
   email: string,
   password: string
 ) => {
-  if (!hasDatabaseUrl()) {
+  if (!hasDatabaseUrl() && isDevelopment()) {
     const user = await findDevUserByEmail(email);
 
     if (!user) {
-      throw new Error("Invalid credentials");
+      throw new HttpError(401, "Invalid credentials");
     }
 
     const isPasswordValid = await bcrypt.compare(
@@ -79,7 +84,7 @@ export const loginUser = async (
     );
 
     if (!isPasswordValid) {
-      throw new Error("Invalid credentials");
+      throw new HttpError(401, "Invalid credentials");
     }
 
     const token = generateToken(user.id, user.role);
@@ -91,12 +96,16 @@ export const loginUser = async (
     };
   }
 
+  if (!hasDatabaseUrl()) {
+    throw new HttpError(500, "Missing required environment variable: DATABASE_URL");
+  }
+
   const user = await prisma.user.findUnique({
     where: { email },
   });
 
   if (!user) {
-    throw new Error("Invalid credentials");
+    throw new HttpError(401, "Invalid credentials");
   }
 
   const isPasswordValid = await bcrypt.compare(
@@ -105,7 +114,7 @@ export const loginUser = async (
   );
 
   if (!isPasswordValid) {
-    throw new Error("Invalid credentials");
+    throw new HttpError(401, "Invalid credentials");
   }
 
   const token = generateToken(user.id, user.role);
