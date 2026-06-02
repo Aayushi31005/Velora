@@ -160,6 +160,10 @@ export const buildApiDocsPage = () => {
           <li><code>GET /api/auth/me</code></li>
           <li><code>GET /api/categories</code></li>
           <li><code>POST /api/categories</code> (admin)</li>
+          <li><code>GET /api/cart</code> (auth)</li>
+          <li><code>POST /api/cart</code> (auth)</li>
+          <li><code>POST /api/orders/checkout</code> (auth)</li>
+          <li><code>GET /api/orders</code> (auth)</li>
           <li><code>GET /api/products</code></li>
           <li><code>POST /api/products</code> (admin)</li>
         </ul>
