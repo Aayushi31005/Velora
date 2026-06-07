@@ -36,11 +36,11 @@ export const validate =
     }
 
     if ("params" in result.data) {
-      req.params = result.data.params as typeof req.params;
+      Object.assign(req.params, result.data.params);
     }
 
     if ("query" in result.data) {
-      req.query = result.data.query as typeof req.query;
+      _res.locals.validatedQuery = result.data.query;
     }
 
     next();

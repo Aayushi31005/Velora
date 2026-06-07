@@ -1,79 +1,114 @@
 import { Link } from "react-router-dom";
 
-import { SectionHeading } from "../components/SectionHeading";
+import { EmptyState } from "../components/EmptyState";
+import { ErrorState } from "../components/ErrorState";
+import { ProductGrid } from "../features/products/components/ProductGrid";
+import { useProducts } from "../features/products/hooks/useProducts";
+import { useCategories } from "../features/products/hooks/useCategories";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
-const routes = [
-  "/products",
-  "/products/:slug",
-  "/cart",
-  "/checkout",
-  "/orders",
-  "/login",
-  "/register",
-  "/admin",
-];
-
-const modules = [
-  "features/auth",
-  "features/products",
-  "store",
-  "routes",
-  "layouts",
-  "api",
-];
-
 export function HomePage() {
-  useDocumentTitle("Frontend architecture");
+  useDocumentTitle("Velora");
+
+  const productsQuery = useProducts({
+    limit: 8,
+    sortBy: "createdAt",
+    sortOrder: "desc",
+  });
+
+  const categoriesQuery = useCategories();
 
   return (
     <div className="stack">
       <section className="hero-panel">
         <div>
-          <span className="section-heading__eyebrow">Frontend foundation</span>
-          <h1>Feature-based React structure for the Velora storefront.</h1>
+          <span className="section-heading__eyebrow">
+            Modern Shopping Experience
+          </span>
+
+          <h1>
+            Discover premium products built for
+            everyday life.
+          </h1>
+
           <p>
-            The frontend now mirrors your backend philosophy: shared infrastructure in small global
-            folders, domain logic inside feature modules, and routes layered with auth guards.
+            Explore curated products, seamless
+            shopping, and a modern commerce
+            experience.
           </p>
         </div>
+
         <div className="hero-panel__actions">
-          <Link className="button-primary" to="/products">
-            Explore products
-          </Link>
-          <Link className="button-ghost" to="/login">
-            Test auth flow
+          <Link
+            className="button-primary"
+            to="/products"
+          >
+            Shop Now
           </Link>
         </div>
       </section>
 
-      <section className="info-grid">
-        <div className="panel">
-          <SectionHeading eyebrow="Routes" title="Planned route map">
-            Central route definitions are ready for public, protected, and admin-only pages.
-          </SectionHeading>
-          <ul className="list-grid">
-            {routes.map((route) => (
-              <li key={route}>
-                <code>{route}</code>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <section className="panel">
+        <h2>Categories</h2>
 
-        <div className="panel">
-          <SectionHeading eyebrow="Modules" title="Feature-first organization">
-            These folders now hold the fastest-growing domain code instead of scattering logic
-            across global buckets.
-          </SectionHeading>
-          <ul className="list-grid">
-            {modules.map((moduleName) => (
-              <li key={moduleName}>
-                <code>{moduleName}</code>
-              </li>
-            ))}
-          </ul>
+        <div className="filter-row">
+          {categoriesQuery.data?.map((category) => (
+            <Link
+              key={category.id}
+              className="filter-chip"
+              to={`/products?category=${category.slug}`}
+            >
+              {category.name}
+            </Link>
+          ))}
         </div>
+      </section>
+
+      <section>
+        <h2>Featured Products</h2>
+
+        {productsQuery.isPending ? (
+          <div className="panel">
+            Loading products...
+          </div>
+        ) : null}
+
+        {productsQuery.isError ? (
+          <ErrorState
+            title="Unable to load featured products"
+            description="Refresh the page and try again."
+          />
+        ) : null}
+
+        {productsQuery.data?.items.length ? (
+          <ProductGrid
+            products={productsQuery.data.items}
+          />
+        ) : null}
+
+        {productsQuery.data &&
+        productsQuery.data.items.length === 0 ? (
+          <EmptyState
+            title="No featured products yet"
+            description="Add products to the catalog to feature them here."
+          />
+        ) : null}
+      </section>
+
+      <section className="panel">
+        <h2>Ready to discover more?</h2>
+
+        <p>
+          Browse our complete catalog and find your
+          next favorite product.
+        </p>
+
+        <Link
+          className="button-primary"
+          to="/products"
+        >
+          Browse Catalog
+        </Link>
       </section>
     </div>
   );

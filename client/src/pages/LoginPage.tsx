@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { AuthForm } from "../features/auth/components/AuthForm";
 import { useLogin } from "../features/auth/hooks/useLogin";
@@ -12,6 +12,9 @@ export function LoginPage() {
 
   return (
     <div className="panel panel--auth">
+      <Link className="login-back-link" to="/">
+        ← Back to Home
+      </Link>
       <h2>Welcome back</h2>
       <p>Sign in with the backend auth flow you already tested from the API docs page.</p>
       <AuthForm

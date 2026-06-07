@@ -16,8 +16,10 @@ export interface ProductQuery {
   categoryId?: string;
   search?: string;
   inStock?: boolean;
+
   page?: number;
   limit?: number;
+
   sortBy?: "createdAt" | "price" | "title";
   sortOrder?: "asc" | "desc";
 }
@@ -31,13 +33,19 @@ export interface ProductPayload {
   categoryId: string;
 }
 
+const normalizeProductQuery = (query: ProductQuery) => ({
+  ...query,
+  search: query.search?.trim() || undefined,
+  inStock:
+    typeof query.inStock === "boolean"
+      ? String(query.inStock)
+      : undefined,
+});
+
 export const productsApi = {
   list: async (query: ProductQuery = {}) => {
     const { data } = await api.get<ProductListResponse>("/products", {
-      params: {
-        ...query,
-        inStock: typeof query.inStock === "boolean" ? String(query.inStock) : undefined,
-      },
+      params: normalizeProductQuery(query),
     });
 
     return data;

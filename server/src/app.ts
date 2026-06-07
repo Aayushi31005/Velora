@@ -2,6 +2,7 @@ import cors from "cors";
 import express from "express";
 
 import { getMissingEnvVars, hasDatabaseUrl, isUsingDefaultJwtSecret } from "./config/env";
+import { prisma } from "./config/prisma";
 import { errorHandler, notFoundHandler } from "./middleware/error.middleware";
 import authRouter from "./modules/auth/auth.routes";
 import adminRouter from "./modules/admin/admin.routes";
@@ -191,6 +192,14 @@ app.get("/api", (_req, res) => {
         },
       },
     },
+  });
+});
+
+app.get("/debug-db", async (_req, res) => {
+  const count = await prisma.product.count();
+
+  res.json({
+    count,
   });
 });
 

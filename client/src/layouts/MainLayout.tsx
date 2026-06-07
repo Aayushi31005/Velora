@@ -10,7 +10,6 @@ import { useAuthStore } from "../store/authStore";
 const navItems = [
   { to: "/", label: "Overview" },
   { to: "/products", label: "Products" },
-  { to: "/cart", label: "Cart" },
   { to: "/orders", label: "Orders" },
   { to: "/admin", label: "Admin" },
 ];

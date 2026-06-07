@@ -242,7 +242,7 @@ code {
 .auth-layout h1,
 .admin-layout h1 {
   font-family: var(--display);
-  font-size: clamp(2.25rem, 6vw, 4.5rem);
+  font-size: clamp(1.95rem, 4.9vw, 3.6rem);
   line-height: 0.98;
   letter-spacing: -0.04em;
 }
@@ -564,6 +564,24 @@ code {
 .auth-form small,
 .form-error {
   color: var(--error);
+}
+
+.login-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+  color: var(--accent-strong);
+  font-weight: 600;
+}
+
+.input,
+.panel select {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  padding: 0.9rem 1rem;
+  background: var(--surface-strong);
+  color: var(--heading);
 }
 
 .list-grid {

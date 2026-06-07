@@ -83,9 +83,18 @@ const createProductSlug = async (title: string, excludeProductId?: string) =>
 
 export const listProducts = async (query: ListProductsQuery["query"]) => {
   ensureDatabaseConfigured();
-
-  const { categoryId, categorySlug, inStock, limit, maxPrice, minPrice, page, search, sortBy, sortOrder } =
-    query;
+  const {
+    categoryId,
+    categorySlug,
+    inStock,
+    maxPrice,
+    minPrice,
+    search,
+  } = query;
+  const page = query.page ?? 1;
+  const limit = query.limit ?? 10;
+  const sortBy = query.sortBy ?? "createdAt";
+  const sortOrder = query.sortOrder ?? "desc";
 
   const where: Prisma.ProductWhereInput = {
     ...(categoryId ? { categoryId } : {}),
@@ -125,8 +134,12 @@ export const listProducts = async (query: ListProductsQuery["query"]) => {
       select: productSelect,
       skip: (page - 1) * limit,
       take: limit,
-      orderBy: {
+      orderBy: sortBy
+      ? {
         [sortBy]: sortOrder,
+        }
+      : {
+        createdAt: "desc",
       },
     }),
     prisma.product.count({ where }),

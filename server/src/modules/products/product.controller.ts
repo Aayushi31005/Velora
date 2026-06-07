@@ -9,7 +9,12 @@ import type {
 } from "./product.types";
 
 export const listProducts: RequestHandler = async (req, res) => {
-  const products = await productService.listProducts(req.query as unknown as ListProductsQuery["query"]);
+  const query =
+    (res.locals.validatedQuery as
+      | ListProductsQuery["query"]
+      | undefined) ??
+    (req.query as unknown as ListProductsQuery["query"]);
+  const products = await productService.listProducts(query);
 
   return res.status(200).json(products);
 };

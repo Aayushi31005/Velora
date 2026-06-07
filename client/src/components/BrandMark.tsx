@@ -6,7 +6,7 @@ export function BrandMark() {
       <span className="brand-mark__glyph">V</span>
       <span>
         <strong>Velora</strong>
-        <small>Commerce frontend foundation</small>
+        <small>Premium Shopping Experience</small>
       </span>
     </Link>
   );

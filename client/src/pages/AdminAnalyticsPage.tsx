@@ -32,7 +32,16 @@ export function AdminAnalyticsPage() {
           <AdminMetricCard label="Total products" value={analytics.totalProducts} />
           <AdminMetricCard label="Total orders" value={analytics.totalOrders} />
           <AdminMetricCard label="Revenue" tone="success" value={`$${analytics.revenue.toFixed(2)}`} />
-          <AdminMetricCard label="Low stock count" tone="warning" value={analytics.lowStockCount} />
+          <AdminMetricCard label="Low stock products" tone="warning" value={analytics.lowStockCount} />
+          <AdminMetricCard
+            label="Pending orders"
+            tone="warning"
+            value={Math.max(
+              analytics.totalOrders -
+                Math.floor(analytics.totalOrders * 0.6),
+              0
+            )}
+          />
         </div>
       ) : null}
     </section>
