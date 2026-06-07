@@ -172,6 +172,6 @@ npm run dev
 
 ## Author
 
-Built by [Your Name]
+Built by Aayushi Narang
 
-Computer Science Student | Full-Stack Developer
+Computer Science Student | Web Developer Intern
