@@ -6,14 +6,6 @@ Velora simulates a production-style commerce experience with authentication, pro
 
 ---
 
-## Live Demo
-
-Frontend: [Coming Soon]
-
-Backend API: [Coming Soon]
-
----
-
 ## Features
 
 ### Customer Features
@@ -109,23 +101,27 @@ Frontend uses:
 
 ### Home Page
 
-(Add Screenshot)
+<img width="1918" height="960" alt="image" src="https://github.com/user-attachments/assets/6f36ad90-ec22-4c61-9676-39c6e1081ca1" />
+
 
 ### Product Catalog
+<img width="1915" height="1017" alt="image" src="https://github.com/user-attachments/assets/6e71784b-dc15-4d99-b8bc-4e1d0e5d53e4" />
 
-(Add Screenshot)
 
-### Product Details
+<br><br>
 
-(Add Screenshot)
+
+<img width="1912" height="1015" alt="image" src="https://github.com/user-attachments/assets/4b0c69f2-a4d3-42ab-bbb9-d8700062f24d" />
 
 ### Shopping Cart
 
-(Add Screenshot)
+<img width="1917" height="1017" alt="image" src="https://github.com/user-attachments/assets/ea1cfd3c-0451-4466-840a-9bcc8d88c0e6" />
+
 
 ### Admin Dashboard
 
-(Add Screenshot)
+<img width="1918" height="1015" alt="image" src="https://github.com/user-attachments/assets/2d73ab26-8157-4d1c-8811-797643a50b46" />
+
 
 ---
 
