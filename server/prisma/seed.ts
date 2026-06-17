@@ -1,5 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 
+declare const process: { exit(code?: number): never };
+
 const prisma = new PrismaClient();
 
 const categories = [
@@ -217,7 +219,7 @@ const products = [
     price: "289.00",
     stock: 9,
     imageUrl:
-      "https://images.unsplash.com/photo-1616627981459-a19d6f97a0a8?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1770195483917-b3bb444b7a29?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGdhbWluZyUyMGNoYWlyfGVufDB8fDB8fHww",
     categorySlug: "gaming",
   },
   {

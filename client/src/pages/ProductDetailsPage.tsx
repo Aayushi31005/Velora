@@ -26,6 +26,13 @@ export function ProductDetailsPage() {
   }
 
   const product = productQuery.data;
+  {product.imageUrl && (
+    <img
+      src={product.imageUrl}
+      alt={product.title}
+      className="product-detail__image"
+    />
+  )}
 
   return (
     <section className="panel stack">
